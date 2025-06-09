@@ -133,13 +133,12 @@ $(window).on('load', function () {
     document.getElementById("generate-words").addEventListener("click", function () {
         this.disabled = true;
         clearResults();
-        let mode=document.querySelector('input[name="mode-type"]:checked').value;
         //alert("This is a test alertab  xxxx!");
         try {
             w.postMessage({
                 file: editor.state.doc.toString(),
                 num_of_words: document.getElementById('num-of-words').value,
-                mode: mode,
+                mode: document.querySelector('input[name="mode-type"]:checked').value,
                 sort_words: document.getElementById('sort-words').checked,
                 capitalise_words: document.getElementById('capitalise-words').checked,
                 remove_duplicates: document.getElementById('remove-duplicates').checked,

@@ -17,6 +17,11 @@ class Logger {
   
     info(info) {
         this.infos.push(`Info: ${info}.`);
+        console.info(info);
+    }
+
+    silent_info(info) {
+        console.info(info);
     }
 }
 

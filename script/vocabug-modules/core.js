@@ -87,17 +87,15 @@ const genWords = (() => {
                 output = my_word_list.join(word_divider);
             }
             
-             // 
+            logger.silent_info(
+                `Num of words:      ` + num_of_words + `    Mode: ` + mode +
+                `\nRemove duplicates: ` + remove_duplicates +
+                `\nForce words:       ` + force_words +
+                `\nSort words:        ` + sort_words +
+                `\nCapitalise words:  ` + capitalise_words +
+                `\nWord divider:     "` + word_divider + `"`
+            );
 
-            /*output = 
-            `Num of words:      ` + num_of_words + `    Mode: ` + mode +
-            `\nRemove duplicates: ` + remove_duplicates +
-            `\nForce words:       ` + force_words +
-            `\nSort words:        ` + sort_words +
-            `\nCapitalise words:  ` + capitalise_words +
-            `\nWord divider:     "` + word_divider + `"`;*/
-
-            
         }
         catch (e) { logger.error(e); }
         return output;

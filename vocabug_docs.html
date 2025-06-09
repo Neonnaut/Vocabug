@@ -214,7 +214,7 @@
       <p>Graphemes are indivisible meaningful characters that make a generated word in Vocabug. Phonemes can be thought of as graphemes. If we use English words <code class="example">sky</code> and <code class="example">shy</code> as examples to illustrate this, <code class="example">sky</code> is made up by the graphemes <code class="example">s</code> + <code class="example">k</code> + <code class="example">y</code>, while <code class="example">shy</code> is made up by <code class="example">sh</code> + <code class="example">y</code>.</p>
 
       <h3 id="vocNullGrapheme"><a class="head-num">4.1</a>Null grapheme</h3>
-      <p>If a word is built using the syntax character <code class="example">~</code>, it will disappear in the generated word. In other words <code class="example">~</code> is a null grapheme. If you want to use <code class="example">~</code> as a grapheme, you will need to <a href="#vocWordCreationEscape">escape it</a>. To use other syntax characters as graphemes, they must be escaped too.</p>
+      <p>If a word is built using the syntax character <code class="example">^</code>, it will disappear in the generated word. In other words <code class="example">^</code> is a null grapheme. If you want to use <code class="example">^</code> as a grapheme, you will need to <a href="#vocWordCreationEscape">escape it</a>. To use other syntax characters as graphemes, they must be escaped too.</p>
 
       <h3 id="vocEscapingCharacters"><a class="head-num">4.2</a>Escaping characters</h3>
       <p>A character after the syntax character <code class="example">\</code> ignores any meaning it might have had in the generator, including backslashes themselves. This way, anything including capital letters that have already been defined as categories, brackets, even spaces can be generated or targeted in transforms</p>
@@ -322,7 +322,7 @@
             <td><a href="#nascOptionalSet">Optional-set</a></td>
           </tr>
           <tr>
-            <td><code class="example">~REJECT</code></td>
+            <td><code class="example">^REJECT</code></td>
             <td><a href="#nascReject">Rejects</a> a word</td>
           </tr>
           <tr>
@@ -362,7 +362,7 @@
             <td><a href="#nascPlusMark">Plus-mark</a>, matches 1 or more of the previous character</td>
           </tr>
           <tr>
-            <td><code class="example">^</code>, <code class="example">…</code></td>
+            <td><code class="example">~</code>, <code class="example">…</code></td>
             <td><a href="#nascAnythingsMark">Anythings-mark</a>, matches 1 or more of any character. It is non-greedy</td>
           </tr>
           <tr>
@@ -378,7 +378,7 @@
             <td><a href="#nascPositioner">Positioner</a></td>
           </tr>
           <tr>
-            <td><code class="example">~</code></td>
+            <td><code class="example">^</code></td>
             <td><a href="#nascInsertionAndDeletion">Insertion</a> when in <code class="example">TARGET</code>, <a href="#nascInsertionAndDeletion">deletion</a> when in <code class="example">RESULT</code></td>
           </tr>
           <tr>
@@ -590,8 +590,8 @@ words: &lt;$Y @8&gt;-&lt;d @2&gt;</pre>
       <pre class="example">; Like the previous rule, but preserve palatalisation and labialisation <br>  [x ħ](w, j) -> k(w, j)<br>; xwaxjaxa ==> kwakjaka</pre>
 
       <h3 id="nascReject"><a class="head-num">10.4</a>Reject</h3>
-      <p>To remove, or in other words, reject a word, you use the <code class="example">~REJECT</code> keyword in <code class="example">RESULT</code>:</p>
-      <pre class="example">a, bi -> ~REJECT</pre>
+      <p>To remove, or in other words, reject a word, you use the <code class="example">^REJECT</code> keyword in <code class="example">RESULT</code>:</p>
+      <pre class="example">a, bi -> ^REJECT</pre>
       <p>In the above example, any word that contains <code class="example">a</code> or <code class="example">bi</code> will be rejected.</p>
 
       <h2 id="nascTheCondition"><a class="head-num">11</a>The condition</h2>
@@ -634,7 +634,7 @@ words: &lt;$Y @8&gt;-&lt;d @2&gt;</pre>
 
       <h2 id="nascUsingCategories"><a class="head-num">13</a>Using categories</h2>
       <p>You can reference categories in transforms by enclosing a category in curly brackets <code class="example">{</code> and <code class="example">}</code>. The category will behave in the same way as a concurrent or merging set:</p>
-      <pre class="example">  B = x, y, z<br>  transform:<br>  {B} -> ~<br>; xapay ==> apa</pre>
+      <pre class="example">  B = x, y, z<br>  transform:<br>  {B} -> ^<br>; xapay ==> apa</pre>
 
       <h2 id="nascFeature"><a class="head-num">14</a>The features directive</h2>
       <p>Let's say you had the grapheme, or rather, <i>phon</i>eme /<code class="example">i</code>/ and wanted to capture it by its distinctive vowel features, <code class="example">+high</code> and <code class="example">+front</code>, and turn it into a phoneme marked with <code class="example">+high</code> and <code class="example">+back</code> features, perhaps /<code class="example">ɯ</code>/. The <code class="example">features:</code> directive block lets you do this:</p>
@@ -777,8 +777,8 @@ END
       <pre class="example">; /i/ followed by either 0, 1, or more /a/ becomes /e/<br>  i(a(+)) -> e<br>; ririaaaaa ==> rere</pre>
 
       <h3 id="nascAnythingsMark"><a class="head-num">15.4</a>Anythings-mark</h3>
-      <p>The anythings-mark uses caret <code class="example">^</code> or the ellipsis character <code class="example">…</code> U+2026. It will match as many (but not zero) times to any grapheme as needed. For example:</p>
-      <pre class="example">  b^t -> x<br>; babãitto => xto</pre>
+      <p>The anythings-mark uses tilde <code class="example">~</code> or the ellipsis character <code class="example">…</code> U+2026. It will match as many (but not zero) times to any grapheme as needed. For example:</p>
+      <pre class="example">  b~t -> x<br>; babãitto => xto</pre>
       <p>As we can see, the rule matched <code class="example">b</code> followed by anything else until it reached the first <code class="example">t</code>, then stopped matching. Why did the anythings-mark not continue matching <code class="example">t</code> and beyond like <code class="example">*+</code> would? This is because it is non-greedy, or in other words, lazy. The anythings-mark will continue matching graphemes until a grapheme that would be matched matches an item following the anythings-mark.</p>
       
       <p>The example below uses an optional anythings-mark in the condition:</p>
@@ -832,12 +832,12 @@ END
           </tr>
           <tr>
               <td>1 or more of</td>
-              <td><code class="example">^</code></td>
+              <td><code class="example">~</code></td>
               <td><code class="example">+</code></td>
           </tr>
           <tr>
             <td>0, 1, or more of</td>
-            <td><code class="example">(^)</code></td>
+            <td><code class="example">(~)</code></td>
             <td><code class="example">(+)</code></td>
           </tr>
           <tr>
@@ -855,7 +855,7 @@ END
 
       <h3 id="nascBlocker"><a class="head-num">15.6</a>Blocker</h3>
       <p>Blocker is designed to block the spread of greedy, spreading, behaviour of the anythings-mark. You enclose a set of graphemes inside <code class="example">&lt;[</code> and <code class="example">]</code> that will block spreading. For example we might want the graphemes <code class="example">k</code> or <code class="example">g</code> to prevent the rightward spread of nasal vowels to non nasal vowels:</p>
-      <pre class="example">  [a, i, u] -> [ã, ĩ, ũ] / [ã, ĩ, ũ](^)&lt;[k, g]_<br>; pabãdruliga ==> pabãdrũlĩga</pre>
+      <pre class="example">  [a, i, u] -> [ã, ĩ, ũ] / [ã, ĩ, ũ](~)&lt;[k, g]_<br>; pabãdruliga ==> pabãdrũlĩga</pre>
 
       <h3 id="nascPositioner"><a class="head-num">15.7</a>Positioner</h3>
       <p>Positioners, enclosed in <code class="example">@[</code> and <code class="example">]</code>, allows a grapheme to the left of it to be captured only when it is the Nth in the word:</p>
@@ -872,13 +872,13 @@ END
 ; sososoo ==> sxsxsxo</pre>
 
       <h2 id="nascInsertionAndDeletion"><a class="head-num">16</a>Insertion and deletion</h2>
-      <p>Insertion requires a condition to be present, and for a tilde <code class="example">~</code> to be present in <code class="example">TARGET</code>, representing nothing.</p>
+      <p>Insertion requires a condition to be present, and for a caron <code class="example">^</code> to be present in <code class="example">TARGET</code>, representing nothing.</p>
       <pre class="example">; insert /a/ in between /b/ and /t/
-  ~ -> a / b_t
+  ^ -> a / b_t
 ; bt ==> bat</pre>
-      <p>Deletion happens when <code class="example">~</code> is present in <code class="example">RESULT</code></p>
+      <p>Deletion happens when <code class="example">^</code> is present in <code class="example">RESULT</code></p>
       <pre class="example">; delete every /b/
-  b -> ~
+  b -> ^
 ; bubda ==> uda</pre>
 
       <h2 id="nascAdvancedRules"><a class="head-num">17</a>Advanced rules</h2>
@@ -924,7 +924,7 @@ END
 
       <p>For example:</p>
       <pre class="example">BEGIN if:<br>  ; Deletion of schwa before r
-  ə -> ~ / _r
+  ə -> ^ / _r
 then:<br>  ; Then do metathesis of r and l
   r|l -> 2|1 / _|[plosive]_
 else:<br>  ; Schwa becomes e if the first rule did not apply
@@ -940,7 +940,7 @@ END</pre>
       <h3 id="nascRuleMacro"><a class="head-num">18.3</a>Rule macro</h3>
       <p>Rule macro saves rules to be used later in the definition-build as many times as needed. The rules inside the <code class="example">define-rule-macro:</code> block do not run until invoked using <code class="example">do-rule-macro:</code>:</p>
       <pre class="example">BEGIN def-rule-macro resyllabify:<br>  i -> j / _[a,e,o,u]<br>  u -> w / _[a,e,i,o]<br>END<br>
-  do-rule-macro: resyllabify<br>  ʔ -> ~<br>  do-rule-macro: resyllabify
+  do-rule-macro: resyllabify<br>  ʔ -> ^<br>  do-rule-macro: resyllabify
 ; iaruʔitua ==> jaruʔitwa ==> jaruitwa  ==> jarwitwa</pre>
       <p>In the above example we saved two rules as a macro under the name "resyllabify" and used that macro twice.</p>
 
@@ -951,7 +951,7 @@ a +  +  o
 i -  +  uu
 u -  -  +</pre>
       <p>The first grapheme is the row, and the second grapheme is the column. In this example, <code class="example">au</code> becomes <i>o</i> and <code class="example">iu</code> becomes <i>uu</i>. <code class="example">+</code> means to leave the combination as-is, and <code class="example">-</code> means to reject the word. This table would permit <code class="example">ai</code> but reject <code class="example">ia</code>.</p>
-      <p>Cluster-fields can also use <code class="example">~</code> in them to remove a sequence.</p>
+      <p>Cluster-fields can also use <code class="example">^</code> in them to remove a sequence.</p>
       <p>As with filters, these are parsed in the order presented. The cluster-field ends at a blank line or the end of the definition-build.</p>
 
       <h2 id="nascEngine"><a class="head-num">20</a>Engine</h2>

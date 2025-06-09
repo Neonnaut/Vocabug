@@ -61,7 +61,7 @@
           <div class="flex flex-col gap-2">
 
             <div class="flex items-center gap-2">
-              <select name = "category-name">
+              <select name="category-name">
                 <option value="A">A</option><option value="B">B</option><option value="C" selected="selected">C</option>
                 <option value="D">D</option><option value="E">E</option><option value="F">F</option>
                 <option value="G">G</option><option value="H">H</option><option value="I">I</option>
@@ -72,7 +72,7 @@
                 <option value="V">V</option><option value="W">W</option><option value="X">X</option>
                 <option value="Y">Y</option><option value="Z">Z</option>
               </select>
-              <input type="text" name="category-field"  placeholder="a, e, i, o, u, [aa, ee, oo, ii, uu]" class="w-full monospace">
+              <input type="text" name="category-field"  placeholder="a, e, i, o, u, [aa, ee, oo, ii, uu]" class="w-full monospace"></input>
 
               <button class="voca-delete"><i class="fa fa-trash"></i></button>
             </div>
@@ -82,7 +82,7 @@
           
           <div class="flex flex-col gap-2">
             <div class="flex items-center gap-2">
-              <select>
+              <select name="category-name">
                 <option value="A">A</option><option value="B">B</option><option value="C">C</option>
                 <option value="D">D</option><option value="E">E</option><option value="F">F</option>
                 <option value="G">G</option><option value="H">H</option><option value="I">I</option>
@@ -93,7 +93,7 @@
                 <option value="V" selected="selected">V</option><option value="W">W</option><option value="X">X</option>
                 <option value="Y">Y</option><option value="Z">Z</option>
               </select>
-              <input type="text" placeholder="a e i o u ..." class="w-full monospace">
+              <input type="text" name="category-field" placeholder="a e i o u ..." class="w-full monospace"></input>
 
               <button class="voca-delete"><i class="fa fa-trash"></i></button>
             </div>
@@ -107,14 +107,17 @@
 
           <h3>Segments</h3>
 
+                    <label for="optionals-weight">Optionals weight:</label>
+          <input id="optionals-weight" value="10" type="number" min="1" max="100" id="myPercent"/><a> %</a>
+        <br><br>
                   
         <div class="grid grid-cols-2 gap-2 pb-4">
-          <label class="truncate flex flex-col gap-2">Min Syllables
-            <input type="number" placeholder="1">
+          <label for="min-syllable" class="truncate flex flex-col gap-2">Min Syllables
+            <input id="min-syllable" type="number" value="1">
           </label>
           
-          <label class="flex flex-col gap-2">Max Syllables
-            <input type="number" placeholder="1" name="syllablesMax">
+          <label for="max-syllable" class="flex flex-col gap-2">Max Syllables
+            <input id="max-syllable" type="number" value="1" name="syllablesMax">
           </label>
         </div>
         <br>
@@ -126,47 +129,47 @@
               <select name="segment-name" disabled >
                 <option value="$S">$S</option>
               </select>
-              <input name="segment-field" type="text" placeholder="a e i o u ..." class="w-full monospace">
+              <input name="segment-field" type="text" placeholder="a e i o u ..." class="w-full monospace"></input>
 
               <button disabled class="voca-delete"><i class="fa fa-trash"></i></button>
             </div>
           </div>
         </div>
 
-        <input type="button" id="voc-add-segment" class="wide-btn" value="Add segment">
+        <button id="voc-add-segment" class="wide-btn">Add segment</button>
           
 
 
           <h3>Words</h3>
 
-          <label for="num-of-words">Default distribution:</label>
-          <select id="v0" name="v0" aria-label="Variable name for subpattern 0">
+          <label for="word-shape-distribution">Default distribution:</label>
+          <select id="word-shape-distribution" aria-label="Default distribution type for word-shapes">
             <option value="Flat">Flat</option>
             <option value="Gusein-Zade">Gusein-Zade</option>
             <option value="zipfian">Zipfian</option>
           </select>
+
           <br>
 
-          
-          <label for="num-of-words">Word-shapes:</label><br>
-          <textarea placeholder="$">$S, I$ $ V</textarea class="monospace">
+          <label for="word-shapes">Word-shapes:</label><br>
+          <textarea id="word-shapes">$S, I$, $ V</textarea class="monospace">
 
-          <label for="num-of-words">Alphabet:</label><br>
-          <input type="text" id="pattern" name="pattern" class="monospace" aria-label="Pattern" value="a, b, c">
+          <label for="alphabet">Alphabet:</label><br>
+          <input id="alphabet" type="text" id="pattern" name="pattern" class="monospace" aria-label="Pattern" value="a, b, c">
           <br>
 
         <h3>Transforms</h3>
 
-                  <label for="num-of-words">Graphemes:</label><br>
-          <input type="text" id="pattern" name="pattern" class="monospace" aria-label="Pattern" value="a, b, c">
+          <label for="graphemes">Graphemes:</label><br>
+          <input id="graphemes" type="text" id="pattern" name="pattern" class="monospace" aria-label="Pattern" value="a, b, c">
           <br><br>
           
         <div id="transform-container">
           <div class="flex flex-col gap-2">
             <div class="flex items-center gap-2">
-              <input type="text" placeholder="'a, 'e, 'i, 'o, 'u" class="w-full monospace">
+              <input name="transform-target" type="text" placeholder="'a, 'e, 'i, 'o, 'u" class="w-full monospace"></input>
               <a>&#8594;</a>
-              <input type="text" placeholder="á, é, í, ó, ú" class="w-full monospace">
+              <input name="transform-after" type="text" placeholder="á, é, í, ó, ú" class="w-full monospace"></input>
               <button class="voca-delete"><i class="fa fa-trash"></i></button>
             </div>
           </div>
@@ -181,13 +184,13 @@
         <div class="switch-field">
           <input type="submit" id="generate-words" value="Generate">
           <input type="submit" id='output-words-copy' value="Copy">
-          <input type="button" id="lex-clear-editor" value="Clear">
+          <input type="button" id="voc-clear-editor" value="Clear">
 
         </div>
   
-        <textarea data-gramm="false" data-gramm_editor="false" data-enable-grammarly="false" rows="6" id='lex-output-words-field' spellcheck='false' placeholder="Generated words will be shown here..."></textarea><br>
+        <textarea data-gramm="false" data-gramm_editor="false" data-enable-grammarly="false" rows="6" id='voc-output-words' spellcheck='false' placeholder="Generated words will be shown here..."></textarea><br>
       
-        <div id='lex-output-message' style="border: 2px solid #000;"></div>
+        <div id='voc-output-message' style="border: 2px solid #000;"></div>
     
         <fieldset style="float: left;">
           <legend>Options</legend>
@@ -195,19 +198,16 @@
           <input type="number" autocomplete="off" id="num-of-words" min="0" placeholder="100">
   
           <div>
-            <div style="float:left; display: inline; margin-right: 10px;">
+            <div style="float:left; display: inline; margin: 4px 10px 2px 0;">
               
-              <input type="radio" id="word-list-mode" name="mode-type" checked>
+              <input type="radio" id="word-list-mode" name="mode-type" value=word-list checked>
               <label for="word-list-mode">Word-list mode</label><br>
 
-              <input type="radio" id="verbose-mode" name="mode-type">
-              <label for="verbose-mode">Verbose mode</label><br>
+              <input type="radio" id="debug-mode" name="mode-type" value="debug">
+              <label for="debug-mode">Debug mode</label><br>
   
-              <input type="radio" id="paragraph-mode" name="mode-type">
+              <input type="radio" id="paragraph-mode" name="mode-type" value="paragraph">
               <label for="paragraph-mode">Paragraph mode</label><br>
-  
-              <input type="checkbox" id="editor-wrap-lines">
-              <label for="editor-wrap-lines">Editor wrap lines</label>
   
             </div>
             <div style="float: left; display: inline;">
@@ -215,7 +215,7 @@
               <label for="remove-duplicates">Remove duplicates</label><br>
   
               <input type="checkbox" id="force-words">
-              <label for="force-words">Force words</label><br>
+              <label for="force-words">Force word limit</label><br>
   
               <input type="checkbox" id="sort-words" checked>
               <label for="sort-words">Sort words</label><br>
@@ -236,14 +236,13 @@
           <legend>File save / load</legend>
   
           <label for="file-name">File name:</label><br>
-          <input type="text" autocomplete="off" id="file-name" placeholder="lexifer"><br>
-  
+          <input type="text" autocomplete="off" id="file-name" placeholder="vocabug"><br>
           <input type="submit" id="load-file" value="Load file">
-  
           <input type="submit" id="save-file" value="Save file">
+          <br>
 
         </fieldset>
-        <div style="clear: left;"></div>
+        <br style="clear: left;">
     </section>
 
 
