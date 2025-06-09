@@ -77,7 +77,7 @@ function make_file(){
         const transformAfter = item.querySelector("input[name='transform-after']");
         
         if (transformTarget.value != '' && transformAfter.value != '' ) {
-            transforms += transformTarget.value + ' => ' + transformAfter.value + '\n';
+            transforms += transformTarget.value + ' → ' + transformAfter.value + '\n';
         }
     });
 
@@ -125,7 +125,7 @@ function file_to_interface(file) {
             // Handle transform lines
 
             // Return word, field, valid, isCapital, hasDollarSign
-            let [myName, field, valid, isCapital, hasDollarSign] = divideString('=>', line);
+            let [myName, field, valid, isCapital, hasDollarSign] = divideString('→', line);
 
             if ( !valid ) {
 
@@ -471,6 +471,18 @@ function setFilename(filename) {
 }
 
 $(window).on('load', function () {
+    if (localStorage.hasOwnProperty('vocabug-lite')) {
+        try {
+            let got_local_storage = JSON.parse(localStorage.getItem('vocabug-lite'));
+
+            file_to_interface(got_local_storage[0]);
+            setFilename(got_local_storage[1]);
+        } catch {
+            localStorage.removeItem("vocabug-lite");
+            content = getVocExample('basic');
+        }
+    }
+
     //Copy results button
     document.getElementById("output-words-copy").addEventListener("click", function () {
         let output_words_field = document.getElementById("voc-output-words-field");
@@ -737,7 +749,7 @@ $(window).on('load', function () {
         }
 
         // Store file contents in localstorage to be retrieved on page refresh.
-        localStorage.setItem('vocabug', JSON.stringify([e.data.file, filename]));
+        localStorage.setItem('vocabug-lite', JSON.stringify([e.data.file, filename]));
 
         document.getElementById("generate-words").disabled = false;
     }
@@ -785,6 +797,38 @@ $(window).on('load', function () {
         // Save input text in user's localstorage for next session
         localStorage.setItem('vocabug-lite', JSON.stringify([file, filename]));
     });
+
+        // Show keyboard
+    document.getElementById("show-keyboard").addEventListener("click", function () {
+        if (document.getElementById('show-keyboard').checked) {
+            document.getElementById("voc-keyboard-table").style.display = "block";
+        } else {
+            document.getElementById("voc-keyboard-table").style.display = "none";
+        }
+    });
+
+    $(".ipa-button").mousedown(function (e) {
+        e.preventDefault();
+
+        let activeElement = document.activeElement;
+
+        if (activeElement && ((activeElement.tagName === "INPUT" && activeElement.type == "text")|| activeElement.tagName === "TEXTAREA")) {
+            let start = activeElement.selectionStart;
+            let end = activeElement.selectionEnd;
+
+            // Insert character at cursor position
+            let beforeText = activeElement.value.substring(0, start);
+            let afterText = activeElement.value.substring(end);
+            activeElement.value = beforeText + $(this).attr("value") + afterText;
+
+            // Move cursor after inserted character
+            activeElement.selectionStart = activeElement.selectionEnd = start + $(this).attr("value").length;
+
+            activeElement.focus();
+        }
+
+    });
+    
 });
 
 

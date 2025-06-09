@@ -9,12 +9,12 @@ const w = new Worker("./script/vocabug-modules/worker.js", { type: "module" });
 function create_file_editor() {
     // Work out content and theme of file editor
     let content = ''; let theme = 'dark'; let filename = '';
-    if (localStorage.hasOwnProperty('vocabug')) {
+    if (localStorage.hasOwnProperty('vocabug-pro')) {
         try {
-            let got_local_storage = JSON.parse(localStorage.getItem('vocabug'));
+            let got_local_storage = JSON.parse(localStorage.getItem('vocabug-pro'));
             content = got_local_storage[0]; filename = got_local_storage[1];
         } catch {
-            localStorage.removeItem("vocabug");
+            localStorage.removeItem("vocabug-pro");
             content = getVocExample('basic');
         }
     } else {
@@ -173,7 +173,7 @@ $(window).on('load', function () {
         }
 
         // Store file contents in localstorage to be retrieved on page refresh.
-        localStorage.setItem('vocabug', JSON.stringify([e.data.file, filename]));
+        localStorage.setItem('vocabug-pro', JSON.stringify([e.data.file, filename]));
 
         document.getElementById("generate-words").disabled = false;
     }
@@ -199,7 +199,7 @@ $(window).on('load', function () {
                         insert: file
                     }
                 })
-                localStorage.setItem('vocabug', JSON.stringify([file, filename]));
+                localStorage.setItem('vocabug-pro', JSON.stringify([file, filename]));
             }
         };
         input.click();
@@ -222,7 +222,7 @@ $(window).on('load', function () {
         link.click();
         URL.revokeObjectURL(link.href);
         // Save input text in user's localstorage for next session
-        localStorage.setItem('vocabug', JSON.stringify([file, filename]));
+        localStorage.setItem('vocabug-pro', JSON.stringify([file, filename]));
     });
 
     //Copy results button
