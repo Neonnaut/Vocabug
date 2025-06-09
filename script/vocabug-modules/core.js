@@ -95,6 +95,7 @@ const genWords = (() => {
                 `\nCapitalise words:  ` + capitalise_words +
                 `\nWord divider:     "` + word_divider + `"`
             );
+            logger.silent_info(file);
 
         }
         catch (e) { logger.error(e); }

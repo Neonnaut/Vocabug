@@ -12,7 +12,7 @@
   <link href="style.css" rel="stylesheet" type="text/css" media="all">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
   <script src="script/theme-picker.js"></script>
-  <script src="script/firebug.js" ></script>
+  <script src="script/firebug.js" type="module"></script>
 
   <!-- Fonts -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -52,8 +52,8 @@
         <label for="category-distribution">Default distribution:</label>
           <select id="category-distribution" aria-label="Default distribution type for category items">
             <option value="Flat">Flat</option>
-            <option value="Gusein-Zade">Gusein-Zade</option>
-            <option value="zipfian">Zipfian</option>
+            <option value="Gusein-zade">Gusein-zade</option>
+            <option value="Zipfian">Zipfian</option>
           </select>
           <br><br>
 
@@ -145,8 +145,8 @@
           <label for="word-shape-distribution">Default distribution:</label>
           <select id="word-shape-distribution" aria-label="Default distribution type for word-shapes">
             <option value="Flat">Flat</option>
-            <option value="Gusein-Zade">Gusein-Zade</option>
-            <option value="zipfian">Zipfian</option>
+            <option value="Gusein-zade">Gusein-zade</option>
+            <option value="Zipfian">Zipfian</option>
           </select>
 
           <br>
@@ -188,7 +188,7 @@
 
         </div>
   
-        <textarea data-gramm="false" data-gramm_editor="false" data-enable-grammarly="false" rows="6" id='voc-output-words' spellcheck='false' placeholder="Generated words will be shown here..."></textarea><br>
+        <textarea data-gramm="false" data-gramm_editor="false" data-enable-grammarly="false" rows="6" id='voc-output-words-field' spellcheck='false' placeholder="Generated words will be shown here..."></textarea><br>
       
         <div id='voc-output-message' style="border: 2px solid #000;"></div>
     

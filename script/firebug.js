@@ -1,6 +1,6 @@
 //import getVocExample from "./vocabug-modules/examples.js";
 
-//const w = new Worker("./script/vocabug-modules/worker.js", { type: "module" });
+const w = new Worker("./script/vocabug-modules/worker.js", { type: "module" });
 
 //var OUTPUT_WORDS_FIELD = document.getElementById('voc-output-words-field');
 //var FILE_NAME = document.getElementById('file-name');
@@ -109,6 +109,15 @@ function file_to_interface(file) {
     let transform_mode = false;
     let has_dollar_s = false;
 
+    const category_container = document.getElementById("category-container"); // Target div element
+    category_container.innerHTML = ''; // Clear existing categories
+
+    const segment_container = document.getElementById("segment-container"); // Target div element
+    segment_container.innerHTML = ''; // Clear existing segments
+
+    const transform_container = document.getElementById("transform-container"); // Target div element
+    transform_container.innerHTML = ''; // Clear existing transforms
+
     for (let i = 0; i < myArray.length; i++) {
         let line = myArray[i].trim();
 
@@ -116,64 +125,73 @@ function file_to_interface(file) {
             // Handle transform lines
 
             // Return word, field, valid, isCapital, hasDollarSign
-            let dividedValues = divideString('=>', line);
-            console.log(dividedValues);
+            let [myName, field, valid, isCapital, hasDollarSign] = divideString('=>', line);
 
-            const category_container = document.getElementById("transform-container"); // Target div element
-            category_container.innerHTML = ''; // Clear existing categories
+            if ( !valid ) {
 
-            // Create main wrapper div
-            const wrapperDiv = document.createElement("div");
-            wrapperDiv.className = "flex flex-col gap-2";
+            } else {
 
-            // Create inner div
-            const innerDiv = document.createElement("div");
-            innerDiv.className = "flex items-center gap-2";
+                // Create main wrapper div
+                const wrapperDiv = document.createElement("div");
+                wrapperDiv.className = "flex flex-col gap-2";
 
-            // Create name input field
-            const targetElement = document.createElement("input");
-            targetElement.type = "text";
-            targetElement.className = "w-full monospace";
-            targetElement.name = "category-field"
-            targetElement.value = "foobar";
+                // Create inner div
+                const innerDiv = document.createElement("div");
+                innerDiv.className = "flex items-center gap-2";
 
-            // Create name input field
-            const my_arrow = document.createElement("a");
-            my_arrow.innerHTML = "→";
+                // Create name input field
+                const targetElement = document.createElement("input");
+                targetElement.type = "text";
+                targetElement.className = "w-full monospace";
+                targetElement.name = "transform-target"
+                targetElement.value = myName;
 
-            // Create after input field
-            const afterElement = document.createElement("input");
-            afterElement.type = "text";
-            afterElement.className = "w-full monospace";
-            afterElement.name = "category-field"
-            afterElement.value = "foobar";
+                // Create name input field
+                const my_arrow = document.createElement("a");
+                my_arrow.innerHTML = "→";
 
-            // Create delete button
-            const buttonElement = document.createElement("button");
-            buttonElement.className = "voca-delete";
-            buttonElement.innerHTML = '<i class="fa fa-trash"></i>';
+                // Create after input field
+                const afterElement = document.createElement("input");
+                afterElement.type = "text";
+                afterElement.className = "w-full monospace";
+                afterElement.name = "transform-after"
+                afterElement.value = field;
 
-            // Append all elements
-            innerDiv.appendChild(targetElement);
-            innerDiv.appendChild(my_arrow);
-            innerDiv.appendChild(afterElement);
-            innerDiv.appendChild(buttonElement);
-            wrapperDiv.appendChild(innerDiv);
-            category_container.appendChild(wrapperDiv);
+                // Create delete button
+                const buttonElement = document.createElement("button");
+                buttonElement.className = "voca-delete";
+                buttonElement.innerHTML = '<i class="fa fa-trash"></i>';
+
+                // Append all elements
+                innerDiv.appendChild(targetElement);
+                innerDiv.appendChild(my_arrow);
+                innerDiv.appendChild(afterElement);
+                innerDiv.appendChild(buttonElement);
+                wrapperDiv.appendChild(innerDiv);
+                transform_container.appendChild(wrapperDiv);
+            }
 
         } else {
             if (line.startsWith("category_distribution:")) {
+                var theSelected = '';
+
                 if (line.split(":")[1].trim().toLowerCase() == "flat") {
-                    document.getElementById('category-distribution').value = "Flat";
+                    theSelected = "Flat";
                 } else if (line.split(":")[1].trim().toLowerCase() == "gusein-zade") {
-                    document.getElementById('category-distribution').value = "Gusein-zade";
+                    theSelected = "Gusein-zade";
                 } else if (line.split(":")[1].trim().toLowerCase() == "zipfian") {
-                    document.getElementById('category-distribution').value = "Zipfian";
+                    theSelected = "Zipfian";
                 } else {
-                    document.getElementById('category-distribution').value = "Flat";
+                    theSelected = "Flat";
+                }
+                const options = document.getElementById('category-distribution').options;
+                for (let option of options) {
+                    if (theSelected == option.value) {
+                        option.selected = true;
+                    }
                 }
 
-            } else if (line.startsWith("optionals-weight:")) {
+            } else if (line.startsWith("optionals_weight:")) {
                 if (is_a_percentage(line.split(":")[1].trim())) {
                     document.getElementById('optionals-weight').value = line.split(":")[1].trim();
                 } else {
@@ -194,15 +212,25 @@ function file_to_interface(file) {
                 }
 
             } else if (line.startsWith("wordshape_distribution:")) {
+                var theSelected = '';
+
                 if (line.split(":")[1].trim().toLowerCase() == "flat") {
-                    document.getElementById('word-shape-distribution').value = "Flat";
+                    theSelected = "Flat";
                 } else if (line.split(":")[1].trim().toLowerCase() == "gusein-zade") {
-                    document.getElementById('word-shape-distribution').value = "Gusein-zade";
+                    theSelected = "Gusein-zade";
                 } else if (line.split(":")[1].trim().toLowerCase() == "zipfian") {
-                    document.getElementById('word-shape-distribution').value = "Zipfian";
+                    theSelected = "Zipfian";
                 } else {
-                    document.getElementById('word-shape-distribution').value = "Flat";
+                    theSelected = "Flat";
                 }
+                const options = document.getElementById('word-shape-distribution').options;
+                for (let option of options) {
+                    if (theSelected == option.value) {
+                        option.selected = true;
+                    }
+                }
+
+
 
             } else if (line.startsWith("words:")) {
                 if (line.split(":")[1].trim() != "") {
@@ -227,55 +255,121 @@ function file_to_interface(file) {
             } else {
 
                 // Return word, field, valid, isCapital, hasDollarSign
-                let dividedValues = divideString('=>', line);
+                let [myName, field, valid, isCapital, hasDollarSign] = divideString('=', line);
 
-                const category_container = document.getElementById("category-container"); // Target div element
-                category_container.innerHTML = ''; // Clear existing categories
 
-                // Create main wrapper div
-                const wrapperDiv = document.createElement("div");
-                wrapperDiv.className = "flex flex-col gap-2";
+                if ( !valid || !isCapital ) {
 
-                // Create inner div
-                const innerDiv = document.createElement("div");
-                innerDiv.className = "flex items-center gap-2";
+                } else if (hasDollarSign) {
 
-                // Create select element
-                const selectElement = document.createElement("select");
-                selectElement.name = "category-name";
-                for (let i = 65; i <= 90; i++) {
-                    if ("h" === "n") {
-                        const optionA = document.createElement("option");
-                        optionA.selected = true;
-                        optionA.value = String.fromCharCode(i); // Changed from "A" to "C"
-                        optionA.textContent = String.fromCharCode(i);
-                        selectElement.appendChild(optionA);
-                    } else {
-                        const optionA = document.createElement("option");
-                        optionA.value = String.fromCharCode(i); // Changed from "A" to "C"
-                        optionA.textContent = String.fromCharCode(i);
-                        selectElement.appendChild(optionA);
+                    if (!has_dollar_s) {
+                        if ('$S' != myName) {
+                            i --;
+                            has_dollar_s = true;
+                            myName = '$S';
+                            field = '';
+                        } else if('$S' == myName) {
+                            has_dollar_s = true;
+                        }
                     }
+
+
+                    // Create main wrapper div
+                    const wrapperDiv = document.createElement("div");
+                    wrapperDiv.className = "flex flex-col gap-2";
+
+                    // Create inner div
+                    const innerDiv = document.createElement("div");
+                    innerDiv.className = "flex items-center gap-2";
+
+                    // Create select element
+                    const selectElement = document.createElement("select");
+                    selectElement.name = "segment-name";
+                    for (let i = 65; i <= 90; i++) {
+                        if (myName === '$'+String.fromCharCode(i)) {
+                            const optionA = document.createElement("option");
+                            optionA.selected = true;
+                            optionA.value = myName; // Changed from "A" to "C"
+                            optionA.textContent = myName;
+                            selectElement.appendChild(optionA);
+                        } else {
+                            const optionA = document.createElement("option");
+                            optionA.value = myName; // Changed from "A" to "C"
+                            optionA.textContent = myName;
+                            selectElement.appendChild(optionA);
+                        }
+                    }
+                    if (myName == '$S') {
+                        selectElement.disabled = true;
+                    }
+
+                    // Create input field
+                    const inputElement = document.createElement("input");
+                    inputElement.type = "text";
+                    inputElement.className = "w-full monospace";
+                    inputElement.name = "segment-field"
+                    inputElement.value = field;
+
+                    // Create delete button
+                    const buttonElement = document.createElement("button");
+                    buttonElement.className = "voca-delete";
+                    buttonElement.innerHTML = '<i class="fa fa-trash"></i>';
+
+                    // Append all elements
+                    innerDiv.appendChild(selectElement);
+                    innerDiv.appendChild(inputElement);
+                    innerDiv.appendChild(buttonElement);
+                    wrapperDiv.appendChild(innerDiv);
+                    segment_container.appendChild(wrapperDiv);
+
+                } else {
+                    // CATEGORIES !!!
+
+                    // Create main wrapper div
+                    const wrapperDiv = document.createElement("div");
+                    wrapperDiv.className = "flex flex-col gap-2";
+
+                    // Create inner div
+                    const innerDiv = document.createElement("div");
+                    innerDiv.className = "flex items-center gap-2";
+
+                    // Create select element
+                    const selectElement = document.createElement("select");
+                    selectElement.name = "category-name";
+                    for (let i = 65; i <= 90; i++) {
+                        if (myName === String.fromCharCode(i)) {
+                            const optionA = document.createElement("option");
+                            optionA.selected = true;
+                            optionA.value = String.fromCharCode(i); // Changed from "A" to "C"
+                            optionA.textContent = String.fromCharCode(i);
+                            selectElement.appendChild(optionA);
+                        } else {
+                            const optionA = document.createElement("option");
+                            optionA.value = String.fromCharCode(i); // Changed from "A" to "C"
+                            optionA.textContent = String.fromCharCode(i);
+                            selectElement.appendChild(optionA);
+                        }
+                    }
+
+                    // Create input field
+                    const inputElement = document.createElement("input");
+                    inputElement.type = "text";
+                    inputElement.className = "w-full monospace";
+                    inputElement.name = "category-field"
+                    inputElement.value = field;
+
+                    // Create delete button
+                    const buttonElement = document.createElement("button");
+                    buttonElement.className = "voca-delete";
+                    buttonElement.innerHTML = '<i class="fa fa-trash"></i>';
+
+                    // Append all elements
+                    innerDiv.appendChild(selectElement);
+                    innerDiv.appendChild(inputElement);
+                    innerDiv.appendChild(buttonElement);
+                    wrapperDiv.appendChild(innerDiv);
+                    category_container.appendChild(wrapperDiv);
                 }
-
-                // Create input field
-                const inputElement = document.createElement("input");
-                inputElement.type = "text";
-                inputElement.className = "w-full monospace";
-                inputElement.name = "category-field"
-                inputElement.value = "foobar";
-
-                // Create delete button
-                const buttonElement = document.createElement("button");
-                buttonElement.className = "voca-delete";
-                buttonElement.innerHTML = '<i class="fa fa-trash"></i>';
-
-                // Append all elements
-                innerDiv.appendChild(selectElement);
-                innerDiv.appendChild(inputElement);
-                innerDiv.appendChild(buttonElement);
-                wrapperDiv.appendChild(innerDiv);
-                category_container.appendChild(wrapperDiv);
             }
         }
     }
@@ -312,7 +406,7 @@ function divideString(divider, string) {
 }
 
 
-function clearResults() {
+function clearFields() {
     document.getElementById("category-distribution").selectedIndex = 0;
 
     document.getElementById('category-container').innerHTML =
@@ -365,6 +459,13 @@ function clearResults() {
 
     document.getElementById('transform-container').innerHTML =``
 }
+
+function clearResults() {
+    document.getElementById('voc-output-message').innerHTML = "";
+    document.getElementById('voc-output-words-field').innerHTML = "";
+}
+
+
 function setFilename(filename) {
     document.getElementById('file-name').value = filename;
 }
@@ -372,7 +473,7 @@ function setFilename(filename) {
 $(window).on('load', function () {
     //Copy results button
     document.getElementById("output-words-copy").addEventListener("click", function () {
-        let output_words_field = document.getElementById("voc-output-words");
+        let output_words_field = document.getElementById("voc-output-words-field");
 
         if (output_words_field.value != "") {
 
@@ -391,9 +492,10 @@ $(window).on('load', function () {
 
     //Clear button
     document.getElementById("voc-clear-editor").addEventListener("click", function () {
-        if (window.confirm("Clear EDITOR TEXT and GENERATED WORDS?")) {
+        if (window.confirm("Clear ALL FIELDS and GENERATED WORDS?")) {
 
             setFilename('');
+            clearFields();
             clearResults();
         }
     });
@@ -593,20 +695,53 @@ $(window).on('load', function () {
 
     //Add generate button
     document.getElementById("generate-words").addEventListener("click", function () {
-
+        this.disabled = true;
+        clearResults();
         let myFile = make_file();
 
-        console.log(myFile);
-
-        console.log(document.getElementById('num-of-words').value),
-        console.log(document.querySelector('input[name="mode-type"]:checked').value),
-        console.log(document.getElementById('sort-words').checked),
-        console.log(document.getElementById('capitalise-words').checked),
-        console.log(document.getElementById('remove-duplicates').checked),
-        console.log(document.getElementById('force-words').checked),
-        console.log(document.getElementById('word-divider').value)
-
+        try {
+            w.postMessage({
+                file: myFile,
+                num_of_words: document.getElementById('num-of-words').value,
+                mode: document.querySelector('input[name="mode-type"]:checked').value,
+                sort_words: document.getElementById('sort-words').checked,
+                capitalise_words: document.getElementById('capitalise-words').checked,
+                remove_duplicates: document.getElementById('remove-duplicates').checked,
+                force_words: document.getElementById('force-words').checked,
+                word_divider: document.getElementById('word-divider').value
+            })
+        } catch(e) {
+            this.disabled = false;
+            alert(e);
+        }
     });
+
+    w.onmessage = function (e) {
+        let output_words_field = document.getElementById('voc-output-words-field');
+
+        // Transfer words to the output
+        output_words_field.innerHTML = e.data.words;
+        output_words_field.focus();
+
+        let filename = document.getElementById('file-name').value;
+
+        let output_message = document.getElementById('voc-output-message');
+        if (e.data.warning_message) {
+            output_message.innerHTML += `<p class='warning-message'>${e.data.warning_message}</p>`;
+        }
+        if (e.data.error_message) {
+            output_message.innerHTML += `<p class='error-message'>${e.data.error_message}</p>`;
+        }
+        if (e.data.info_message) {
+            output_message.innerHTML += `<p class='info-message'>${e.data.info_message}</p>`;
+        }
+
+        // Store file contents in localstorage to be retrieved on page refresh.
+        localStorage.setItem('vocabug', JSON.stringify([e.data.file, filename]));
+
+        document.getElementById("generate-words").disabled = false;
+    }
+    
 
     //Load file button
     document.getElementById("load-file").addEventListener("click", function () {
