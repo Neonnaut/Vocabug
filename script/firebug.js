@@ -60,11 +60,11 @@ function make_file(){
     // wordshapes
     const optionals_weight = document.getElementById('optionals-weight').value;
 
-    // wordshapes
-    const wordshapes = document.getElementById('word-shapes').value;
-
     //alphabet
     const alphabet = document.getElementById('alphabet').value;
+
+    // wordshapes
+    const wordshapes = document.getElementById('word-shapes').value;
 
     // graphemes
     const graphemes = document.getElementById('graphemes').value;
@@ -82,21 +82,18 @@ function make_file(){
     });
 
 let file = 
-`category_distribution: ${category_distribution}
-
+`category-distribution: ${category_distribution}
 ${categories.trim()}
 
-num_syllables: ${min_syllables} - ${max_syllables}
-
+num-syllables: ${min_syllables} - ${max_syllables}
 ${segments.trim()}
 
-wordshape_distribution: ${wordshape_distribution}
-optionals_weight: ${optionals_weight}
+wordshape-distribution: ${wordshape_distribution}
+optionals-weight: ${optionals_weight}
 words: ${wordshapes}
 alphabet: ${alphabet}
 
 graphemes: ${graphemes}
-
 BEGIN transform:
 ${transforms.trim()}
 END`
@@ -120,6 +117,10 @@ function file_to_interface(file) {
 
     for (let i = 0; i < myArray.length; i++) {
         let line = myArray[i].trim();
+        line = line.replace(/;.*/u, '').trim(); // comments!!
+        if (line === '') {
+            continue;
+        }
 
         if (transform_mode) {
             // Handle transform lines
@@ -172,17 +173,17 @@ function file_to_interface(file) {
             }
 
         } else {
-            if (line.startsWith("category_distribution:")) {
+            if (line.startsWith("category-distribution:")) {
                 var theSelected = '';
 
                 if (line.split(":")[1].trim().toLowerCase() == "flat") {
-                    theSelected = "Flat";
+                    theSelected = "flat";
                 } else if (line.split(":")[1].trim().toLowerCase() == "gusein-zade") {
-                    theSelected = "Gusein-zade";
+                    theSelected = "gusein-zade";
                 } else if (line.split(":")[1].trim().toLowerCase() == "zipfian") {
-                    theSelected = "Zipfian";
+                    theSelected = "zipfian";
                 } else {
-                    theSelected = "Flat";
+                    theSelected = "flat";
                 }
                 const options = document.getElementById('category-distribution').options;
                 for (let option of options) {
@@ -191,14 +192,14 @@ function file_to_interface(file) {
                     }
                 }
 
-            } else if (line.startsWith("optionals_weight:")) {
+            } else if (line.startsWith("optionals-weight:")) {
                 if (is_a_percentage(line.split(":")[1].trim())) {
                     document.getElementById('optionals-weight').value = line.split(":")[1].trim();
                 } else {
                     document.getElementById('optionals-weight').value = '10'; // Default value
                 }
 
-            } else if (line.startsWith("num_syllables:")) {
+            } else if (line.startsWith("num-syllables:")) {
                 let syllableRange = line.split(":")[1].trim().split("-");
                 if (syllableRange.length != 2) {
                     document.getElementById('min-syllable').value = '1'; // Default value
@@ -211,17 +212,17 @@ function file_to_interface(file) {
                     document.getElementById('max-syllable').value = '1'; // Default value
                 }
 
-            } else if (line.startsWith("wordshape_distribution:")) {
+            } else if (line.startsWith("wordshape-distribution:")) {
                 var theSelected = '';
 
                 if (line.split(":")[1].trim().toLowerCase() == "flat") {
-                    theSelected = "Flat";
+                    theSelected = "flat";
                 } else if (line.split(":")[1].trim().toLowerCase() == "gusein-zade") {
-                    theSelected = "Gusein-zade";
+                    theSelected = "gusein-zade";
                 } else if (line.split(":")[1].trim().toLowerCase() == "zipfian") {
-                    theSelected = "Zipfian";
+                    theSelected = "zipfian";
                 } else {
-                    theSelected = "Flat";
+                    theSelected = "flat";
                 }
                 const options = document.getElementById('word-shape-distribution').options;
                 for (let option of options) {
@@ -230,18 +231,14 @@ function file_to_interface(file) {
                     }
                 }
 
-
-
-            } else if (line.startsWith("words:")) {
-                if (line.split(":")[1].trim() != "") {
-                    document.getElementById('word-shapes').value = line.split(":")[1].trim();
-                }
-
             } else if (line.startsWith("alphabet:")) {
                 if (line.split(":")[1].trim() != "") {
                     document.getElementById('alphabet').value = line.split(":")[1].trim();
                 }
-
+            } else if (line.startsWith("words:")) {
+                if (line.split(":")[1].trim() != "") {
+                    document.getElementById('word-shapes').value = line.split(":")[1].trim();
+                }
             } else if (line.startsWith("graphemes:")) {
                 if (line.split(":")[1].trim() != "") {
                     document.getElementById('graphemes').value = line.split(":")[1].trim();
@@ -424,7 +421,7 @@ function clearFields() {
                 <option value="V">V</option><option value="W">W</option><option value="X">X</option>
                 <option value="Y">Y</option><option value="Z">Z</option>
               </select>
-              <input type="text" name="category-field" class="w-full monospace"></input>
+              <input type="text" name="category-field" class="w-full monospace">
 
               <button class="voca-delete"><i class="fa fa-trash"></i></button>
             </div>

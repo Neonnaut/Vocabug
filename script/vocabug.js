@@ -244,7 +244,9 @@ $(window).on('load', function () {
         }
     });
 
-    $(".ipa-button").click(function () {
+    $(".ipa-button").mousedown(function (e) {
+        e.preventDefault();
+        
         editor.dispatch({
             changes: {
                 from: editor.state.selection.main.head,

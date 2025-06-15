@@ -42,11 +42,11 @@ class SoundSystem {
                 this.logger.warn('Vocabug timed out after 30 seconds because it could not generate enough words in time')
                 break;
             } else if ((num_of_bad_eggs >= upper_gen_limit) && !force_words) {
-                this.logger.warn('Vocabug could not generate the requested amount of words')
+                this.logger.warn('Could not generate the requested amount of words')
                 break
             }
 
-            //const skeleton = ruleSelector.select();  //IV?CVC?
+            //const skeleton = ruleSelector.select();  //I(V)CV(C)
             //const baby = skeleton.generate();  //taNtadoRman
             const word = new Word('IV?CVC?', 'taNtadoRman');
 

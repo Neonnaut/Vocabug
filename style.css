@@ -1081,8 +1081,16 @@ select {
   padding: 6px;
   color: var(--textbox-text);
   background: var(--textbox-bg);
+  font-size: inherit;
 
-  line-height: 28px; /*ios*/
+  -webkit-appearance: none;
+  line-height: 16px; /*ios*/
+  cursor: pointer;
+}
+
+select::after {
+    content: '\0025BC';
+    color: white;
 }
 
 select:disabled {

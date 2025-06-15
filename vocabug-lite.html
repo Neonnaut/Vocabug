@@ -121,9 +121,9 @@
 
         <label for="category-distribution">Default distribution:</label>
           <select id="category-distribution" aria-label="Default distribution type for category items">
-            <option value="Flat">Flat</option>
-            <option value="Gusein-zade">Gusein-zade</option>
-            <option value="Zipfian">Zipfian</option>
+            <option value="flat">Flat</option>
+            <option value="gusein-zade">Gusein-zade</option>
+            <option value="zipfian">Zipfian</option>
           </select>
           <br><br>
 
@@ -142,7 +142,7 @@
                 <option value="V">V</option><option value="W">W</option><option value="X">X</option>
                 <option value="Y">Y</option><option value="Z">Z</option>
               </select>
-              <input type="text" name="category-field" class="w-full monospace" value="m n [p pr] [t tr] [k kr] r s h w j"></input>
+              <input type="text" name="category-field" class="w-full monospace" value="m n [p pr] [t tr] [k kr] r s h w j">
 
               <button class="voca-delete"><i class="fa fa-trash"></i></button>
             </div>
@@ -163,7 +163,7 @@
                 <option value="V" selected="selected">V</option><option value="W">W</option><option value="X">X</option>
                 <option value="Y">Y</option><option value="Z">Z</option>
               </select>
-              <input type="text" name="category-field" class="w-full monospace" value="a, e, i, o, u, [aa, ee, oo, ii, uu]"></input>
+              <input type="text" name="category-field" class="w-full monospace" value="a, e, i, o, u, [aa, ee, oo, ii, uu]">
 
               <button class="voca-delete"><i class="fa fa-trash"></i></button>
             </div>
@@ -182,7 +182,7 @@
                 <option value="V">V</option><option value="W">W</option><option value="X">X</option>
                 <option value="Y">Y</option><option value="Z">Z</option>
               </select>
-              <input type="text" name="category-field" class="w-full monospace" value="n, r, s,"></input>
+              <input type="text" name="category-field" class="w-full monospace" value="n, r, s,">
 
               <button class="voca-delete"><i class="fa fa-trash"></i></button>
             </div>
@@ -197,7 +197,7 @@
           <h3>Segments</h3>
 
           <label for="optionals-weight">Optionals weight:</label>
-          <input id="optionals-weight" value="10" type="number" min="1" max="100" id="myPercent"/><a> %</a>
+          <input id="optionals-weight" value="10" type="number" min="1" max="100"><a> %</a>
         <br><br>
                   
         <div class="grid grid-cols-2 gap-2 pb-4">
@@ -218,7 +218,7 @@
               <select name="segment-name" disabled >
                 <option value="$S">$S</option>
               </select>
-              <input name="segment-field" type="text" value="CV(F)" class="w-full monospace"></input>
+              <input name="segment-field" type="text" value="CV(F)" class="w-full monospace">
 
               <button disabled class="voca-delete"><i class="fa fa-trash"></i></button>
             </div>
@@ -233,40 +233,46 @@
 
           <label for="word-shape-distribution">Default distribution:</label>
           <select id="word-shape-distribution" aria-label="Default distribution type for word-shapes">
-            <option value="Flat">Flat</option>
-            <option value="Gusein-zade">Gusein-zade</option>
-            <option value="Zipfian">Zipfian</option>
+            <option value="flat">Flat</option>
+            <option value="gusein-zade">Gusein-zade</option>
+            <option value="zipfian">Zipfian</option>
           </select>
+          <br><br>
 
-          <br>
-
-          <label for="word-shapes">Word-shapes:</label><br>
-          <textarea id="word-shapes">$S, I$, $ V</textarea class="monospace">
 
           <label for="alphabet">Alphabet:</label><br>
-          <div id="segment-container">
-            <div class="flex flex-col gap-2">
-              <input id="alphabet" type="text" id="pattern" name="pattern" class="monospace" aria-label="Pattern" value="a, b, c">
-            </div>
+          <div class="flex flex-col gap-2">
+            <input id="alphabet" type="text" class="monospace" aria-label="Pattern" value="a, b, c">
           </div>
           <br>
+
+          
+          <label for="word-shapes">Word-shapes:</label><br>
+          <textarea id="word-shapes" class="monospace">$S, I$, $ V</textarea>
 
         <h3>Transforms</h3>
 
           <label for="graphemes">Graphemes:</label><br>
-          <div id="segment-container">
-            <div class="flex flex-col gap-2">
-              <input id="graphemes" type="text" id="pattern" name="pattern" class="monospace" aria-label="Pattern" value="a, b, c">
-            </div>
+          <div class="flex flex-col gap-2">
+            <input id="graphemes" type="text" class="monospace" aria-label="Pattern" value="a, b, c">
           </div>
         <br><br>
           
         <div id="transform-container">
           <div class="flex flex-col gap-2">
             <div class="flex items-center gap-2">
-              <input name="transform-target" type="text" placeholder="'a, 'e, 'i, 'o, 'u" class="w-full monospace"></input>
+              <input name="transform-target" type="text" placeholder="'a, 'e, 'i, 'o, 'u" class="w-full monospace">
               <a>&#8594;</a>
-              <input name="transform-after" type="text" placeholder="á, é, í, ó, ú" class="w-full monospace"></input>
+              <input name="transform-after" type="text" placeholder="á, é, í, ó, ú" class="w-full monospace">
+              <button class="voca-delete"><i class="fa fa-trash"></i></button>
+            </div>
+          </div>
+
+          <div class="flex flex-col gap-2">
+            <div class="flex items-center gap-2">
+              <input name="transform-target" type="text" value="yi, tu, ss, nn, ll" class="w-full monospace">
+              <a>&#8594;</a>
+              <input name="transform-after" type="text" value="tsi, tsu, ts, ny, ly" class="w-full monospace">
               <button class="voca-delete"><i class="fa fa-trash"></i></button>
             </div>
           </div>
