@@ -1,13 +1,97 @@
 import Word from './word.js';
+import replaceSegments from './picking_things/oi.js';
 
 class SoundSystem {
     filters = [];
     phonemeset = {};
     constructor(logger) {
         this.logger = logger;
+
+        this.category_distribution = 'flat'; // flat, gusein-zade, zipfian
+        this.categories = new Map(); // name -> field
+        this.optionals_weight = 20; // 0% - 100%
+        this.min_syllable = 1;
+        this.max_syllable = 1;
+        this.segments = new Map(); // name -> field
+        this.wordshape_distribution = 'flat'; // flat, gusein-zade, zipfian
+        this.alphabet = [];
+        this.wordshapes = '';
+        this.graphemes = [];
+        this.transforms = new Map(); // target -> post
+    }
+
+    shower() {
+        console.table(this.categories);
+        console.table(this.segments);
+        console.table(this.transforms);
+        return `~ DEFINITION ~\ncategory_distribution: ${this.category_distribution}\n`+
+            `min_syllable: ${this.min_syllable}\n`+
+            `max_syllable: ${this.max_syllable}\n`+
+            `wordshape_distribution: ${this.wordshape_distribution}\n`+
+            `optionals_weight: ${this.optionals_weight}\n`+
+            `alphabet: ${this.alphabet}\n`+
+            `wordshapes: ${this.wordshapes}\n`+
+            `graphemes: ${this.graphemes}\n`
+    }
+
+    set_category_distribution(category_distribution) {
+        this.category_distribution = category_distribution;
+    }
+    set_min_syllable(min_syllable) {
+        this.min_syllable = min_syllable;
+    }
+    set_max_syllable(max_syllable) {
+        this.max_syllable = max_syllable;
+    }
+    set_wordshape_distribution(wordshape_distribution) {
+        this.wordshape_distribution = wordshape_distribution;
+    }
+    set_optionals_weight(optionals_weight) {
+        this.optionals_weight = optionals_weight;
+    }
+    set_alphabet(alphabet) {
+        this.alphabet = alphabet;
+    }
+    set_wordshapes(wordshapes) {
+        this.wordshapes = wordshapes;
+    }
+    set_graphemes(graphemes) {
+        this.graphemes = graphemes;
+    }
+    add_transform(target, post) {
+        this.transforms.set(target, post);
+    }
+    add_category(name, field) {
+        this.categories.set(name, field);
+    }
+    add_segment(name, field) {
+        this.segments.set(name, field);
+    }
+
+
+    expand_categories() {
+        for (const [key, value] of this.categories) {
+            this.categories.set(key, replaceSegments(value, this.categories));
+        }
+    }
+
+
+    expand_segments() {
+        for (const [key, value] of this.segments) {
+            this.segments.set(key, replaceSegments(value, this.segments));
+        }
+        this.wordshapes = replaceSegments(this.wordshapes, this.segments);
     }
 
     generate(num_of_words, debug, sort_words, capitalise_words, remove_duplicates, force_words) {
+        this.logger.silent_info(
+            `~ OPTIONS ~\n` +
+            `Num of words:      ` + num_of_words + `    Debug: ` + debug +
+            `\nRemove duplicates: ` + remove_duplicates +
+            `\nForce words:       ` + force_words +
+            `\nSort words:        ` + sort_words +
+            `\nCapitalise words:  ` + capitalise_words
+        );
         
         Word.debug = debug;
         Word.capitalise_words = capitalise_words;
@@ -87,13 +171,15 @@ class SoundSystem {
         }
 
         if (num_of_rejects == 1) {
-            this.logger.info(`1 word were rejected`)
+            this.logger.info(`1 word was rejected`)
         } else if (num_of_rejects > 1) {
             this.logger.info(`${num_of_rejects} words were rejected`)
         }
         
         return words;
     }
+
+
 }
 
 export { SoundSystem };

@@ -81,22 +81,37 @@ function make_file(){
         }
     });
 
-let file = 
-`category-distribution: ${category_distribution}
-${categories.trim()}
-
-num-syllables: ${min_syllables} - ${max_syllables}
-${segments.trim()}
-
-wordshape-distribution: ${wordshape_distribution}
-optionals-weight: ${optionals_weight}
-words: ${wordshapes}
-alphabet: ${alphabet}
-
-graphemes: ${graphemes}
-BEGIN transform:
-${transforms.trim()}
-END`
+    let file = "";
+    if (category_distribution != ''){
+        file += `category-distribution: ${category_distribution}\n`;
+    }
+    if (categories.trim() != '') {
+        file += categories.trim() + '\n';
+    }
+    if (min_syllables != '' && max_syllables != '') {
+        file += `num-syllables: ${min_syllables} - ${max_syllables}\n`;
+    }
+    if (segments.trim() != '') {
+        file += segments.trim() + '\n';
+    }
+    if (wordshape_distribution != '') {
+        file += `wordshape-distribution: ${wordshape_distribution}\n`;
+    }
+    if (optionals_weight != '') {
+        file += `optionals-weight: ${optionals_weight}\n`;
+    }
+    if (alphabet != '') {
+        file += `alphabet: ${alphabet}\n`;
+    }
+    if (wordshapes != '') {
+        file += `words: ${wordshapes}\n`;
+    }
+    if (graphemes != '') {
+        file += `graphemes: ${graphemes}\n`;
+    }
+    if (transforms.trim() != '') {
+        file += `BEGIN transform:\n${transforms.trim()}\nEND\n`;
+    }
 
     return file
 }

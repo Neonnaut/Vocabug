@@ -52,17 +52,6 @@ const genWords = (() => {
             // Yo! This is where we genereate da words !!!!
             // Wow. Such words.
 
-            logger.silent_info(
-                `~ OPTIONS ~\n` +
-                `Num of words:      ` + num_of_words + `    Mode: ` + mode +
-                `\nRemove duplicates: ` + remove_duplicates +
-                `\nForce words:       ` + force_words +
-                `\nSort words:        ` + sort_words +
-                `\nCapitalise words:  ` + capitalise_words +
-                `\nWord divider:     "` + word_divider + `"`
-            );
-            logger.silent_info(`~ DEFINITION ~\n` + file);
-
             const myDefinitionBuild = new DefinitionBuild(file, logger);
 
             // Mode and word divider

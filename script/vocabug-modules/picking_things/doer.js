@@ -88,7 +88,7 @@ function valid_category_brackets(str) {
 function valid_words_brackets(str) {
     console.log('here');
     const stack = [];
-    const bracketPairs = { ')': '(', '}': '{', ']': '[' };
+    const bracketPairs = { ')': '(', '>': '<', ']': '[' };
 
     for (let char of str) {
         if (Object.values(bracketPairs).includes(char)) {
